@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <string.h>
 
 /* Structure definitions */
 /**
@@ -49,6 +50,9 @@ typedef struct file_read
 {
 	FILE *fd;
 	char *line;
+	int line_number;
+	char **tokens_array;
+	int num_tokens; /* Used to create the array of tokens */
 } file_r;
 
 /* Global file variable */
@@ -56,12 +60,14 @@ extern file_r *content;
 
 /* String handling functions */
 int _strlen(char *s);
-
+char *_strcpy(char *dest, char *src);
 
 /*Program functions */
 void check_arguments(int ac);
 void can_i_open(char **argv);
 void initialize_content_variable();
 void read_file(char **argv);
+int count_tokens(char *line_copy);
+void tokenization();
 
 #endif

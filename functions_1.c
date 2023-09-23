@@ -43,6 +43,9 @@ void initialize_content_variable()
 	}
 	content->fd = NULL;
 	content->line = NULL;
+	content->num_tokens = 0;
+	content->tokens_array = NULL;
+	content->line_number = 0;
 }
 
 /**
@@ -55,6 +58,8 @@ void read_file(char **argv)
 {
 	FILE *stream;
 	size_t status = 0;
+	char *line_copy;
+	int i = 0;
 
 	stream = fopen(argv[1], "r");
 	if (stream == NULL)
@@ -65,6 +70,15 @@ void read_file(char **argv)
 	content->fd = stream;
 	while (getline(&content->line, &status, content->fd) != -1)
 	{
-		printf("%s", content->line);
+		line_copy = malloc(sizeof(content->line) + 1);
+		_strcpy(line_copy, content->line);
+		content->num_tokens = count_tokens(line_copy);
+		tokenization();
+		while (*((content->tokens_array) + i) != NULL)
+		{
+			printf("%s\n", (*((content->tokens_array) + i)));
+			i++;
+		}
+		break;
 	}
 }
